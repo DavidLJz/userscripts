@@ -27,7 +27,7 @@ Refer to the following FAQ to solve the issue.
 https://www.tampermonkey.net/faq.php#Q209
 
 ## To Do
-- [ ] Include user dialogue in the downloaded file.
+- [x] Include user dialogue in the downloaded file.
 - [ ] Allow customizing the export's name.
 - [ ] Download as other formats:
     - [ ] PDF

@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Gemini Download Conversation
 // @namespace    https://github.com/DavidLJz/userscripts
-// @version      0.0.3
+// @version      0.1.2
 // @time         2025-06-08 19:00:00
 // @description  Download a conversation from Gemini to a markdown file.
 // @author       DavidLJz - 4dlj1995@gmail.com
@@ -71,6 +71,31 @@
         a.remove();
     }
 
+    const getUserQuery = (modelResponse) => {
+        const conversationContainer = modelResponse.closest('.conversation-container');
+
+        if (!conversationContainer) {
+            logger('Conversation container not found.', 'error');
+            return '';
+        }
+
+        const userQuery = conversationContainer.querySelector('user-query');
+
+        if (!userQuery) {
+            logger('User query not found.', 'error');
+            return '';
+        }
+
+        const text = userQuery.textContent.trim().replace(/\n{2,}/g, '\n\n')
+
+        if (!text) {
+            logger('User query text not found.', 'error');
+            return '';
+        }
+
+        return `**User:** ${text}\n\n`;
+    }
+
     const saveConversation = async (chatWindow) => {
         if (!chatWindow) {
             logger('Chat window not found. Exiting.', 'error');
@@ -79,12 +104,12 @@
 
         logger('Saving conversation...');
 
-        const messages = chatWindow.querySelectorAll('model-response .more-menu-button')
+        const modelResponses = chatWindow.querySelectorAll('model-response')
 
-        if (!messages.length) {
-            alert('No messages found. Exiting.');
+        if (!modelResponses.length) {
+            alert('No modelResponses found. Exiting.');
 
-            logger('No messages found. Exiting.', 'error');
+            logger('No modelResponses found. Exiting.', 'error');
             return;
         }
 
@@ -96,31 +121,44 @@
 
         const fullTextList = [];
 
-        for (let index = 0; index < messages.length; index++) {
-            const menuButton = messages[index];
+        for (let index = 0; index < modelResponses.length; index++) {
+            const modelResponse = modelResponses[index];
 
-            logger(`Saving message ${index + 1} of ${messages.length}...`);
+            logger(`Saving message ${index + 1} of ${modelResponses.length}...`);
 
             try {
-                menuButton.dispatchEvent(clickEvent);
+                let text = getUserQuery(modelResponse);
+
+                modelResponse.querySelector('.more-menu-button').dispatchEvent(clickEvent);
 
                 getCopyButton().dispatchEvent(clickEvent);
 
                 // Wait for message to be copied and then check the clipboard
                 await new Promise(resolve => setTimeout(resolve, 1250));
 
-                const text = await navigator.clipboard.readText();
+                const clipboardText = await navigator.clipboard.readText();
 
-                if (!text) {
+                if (!clipboardText) {
                     throw new Error('No text copied.');
                 }
 
+                text += clipboardText.trim();
+
                 fullTextList.push(text);
 
-                logger(`Message ${index + 1} of ${messages.length} copied: ${text.length > 50 ? text.substring(0, 50) + '...' : text}`);
+                logger(`Message ${index + 1} of ${modelResponses.length} copied: ${text.length > 50 ? text.substring(0, 50) + '...' : text}`);
             }
             catch (error) {
-                logger('Error copying message.', 'error');
+                // Handle NotAllowedError: Failed to execute 'readText' on 'Clipboard': Document is not focused.
+                if (error.name === 'NotAllowedError') {
+                    alert('Please do not switch tabs or windows while the script is running. Exiting.');
+
+                    logger('Document is not focused. Exiting.', 'error');
+                    return;
+                }
+
+                logger(`Error copying message ${index + 1} of ${modelResponses.length}.`, 'error');
+
                 logger(error, 'error');
             }
         }
