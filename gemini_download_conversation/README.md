@@ -22,6 +22,7 @@ This is a Tampermonkey user script that allows you to download a conversation fr
 - [ ] Download as other formats:
     - [ ] PDF
     - [ ] HTML
+    - [ ] Zip with Attachments
 - [ ] Adjust button style.
 
 ## License

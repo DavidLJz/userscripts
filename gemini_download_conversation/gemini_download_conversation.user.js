@@ -1,12 +1,13 @@
 // ==UserScript==
 // @name         Gemini Download Conversation
 // @namespace    https://github.com/DavidLJz/userscripts
-// @version      0.0.1
+// @version      0.0.2
 // @time         2025-06-08 17:04:00
 // @description  Download a conversation from Gemini to a markdown file.
 // @author       DavidLJz - 4dlj1995@gmail.com
 // @license      MIT
 // @match        https://gemini.google.com/app/*
+// @match        https://gemini.google.com/app
 // @run-at       document-end
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=tampermonkey.net
 // @grant        none
@@ -81,6 +82,8 @@
         const messages = chatWindow.querySelectorAll('model-response .more-menu-button')
 
         if (!messages.length) {
+            alert('No messages found. Exiting.');
+
             logger('No messages found. Exiting.', 'error');
             return;
         }
@@ -195,7 +198,7 @@
             }
 
         }, 1000);
-    }, { once: true });
+    });
 
     document.body.appendChild(floatingTriggerButton);
 })();
