@@ -15,6 +15,9 @@ This is a Tampermonkey user script that allows you to download a conversation fr
 1. Navigate to a conversation on the Gemini website.
 2. Click the "Save Conversation" button that appears at the bottom right of the page.
 3. The script will scroll through the conversation, copy each message, and save the conversation as a markdown file.
+4. On first Run the following message may appear. Please click the "Allow" button so the script can continue.
+
+![Screenshot of Prompt](<2025-02-08 190012.png>)
 
 ## To Do
 - [ ] Include user dialogue in the downloaded file.

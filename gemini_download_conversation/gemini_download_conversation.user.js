@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         Gemini Download Conversation
 // @namespace    https://github.com/DavidLJz/userscripts
-// @version      0.0.2
-// @time         2025-06-08 17:04:00
+// @version      0.0.3
+// @time         2025-06-08 19:00:00
 // @description  Download a conversation from Gemini to a markdown file.
 // @author       DavidLJz - 4dlj1995@gmail.com
 // @license      MIT
