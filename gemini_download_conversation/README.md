@@ -19,6 +19,13 @@ This is a Tampermonkey user script that allows you to download a conversation fr
 
 ![Screenshot of Prompt](<2025-02-08 190012.png>)
 
+## Chromium Users
+Please be aware that Userscripts in TamperMonkey may not work for Chromium-Based browsers other than Chrome. 
+
+Refer to the following FAQ to solve the issue.
+
+https://www.tampermonkey.net/faq.php#Q209
+
 ## To Do
 - [ ] Include user dialogue in the downloaded file.
 - [ ] Allow customizing the export's name.
