@@ -7,6 +7,7 @@
 // @author       DavidLJz - 4dlj1995@gmail.com
 // @license      MIT
 // @match        https://gemini.google.com/app/*
+// @run-at       document-end
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=tampermonkey.net
 // @grant        none
 // ==/UserScript==
