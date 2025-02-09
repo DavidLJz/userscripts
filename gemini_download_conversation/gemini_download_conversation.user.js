@@ -136,13 +136,13 @@
                 // Wait for message to be copied and then check the clipboard
                 await new Promise(resolve => setTimeout(resolve, 1250));
 
-                const clipboardText = await navigator.clipboard.readText();
+                const clipboardText = (await navigator.clipboard.readText()).trim()
 
                 if (!clipboardText) {
                     throw new Error('No text copied.');
                 }
 
-                text += clipboardText.trim();
+                text += `**Gemini**: ${clipboardText}`;
 
                 fullTextList.push(text);
 
